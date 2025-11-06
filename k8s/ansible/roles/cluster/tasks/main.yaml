@@ -1,0 +1,8 @@
+- name: Check if cluster already exists
+  command: kind get clusters
+  register: kind_clusters
+  changed_when: false
+
+- name: Create kind cluster
+  command: kind create cluster --config {{ kind_config_path }}
+  when: cluster_name not in kind_clusters.stdout

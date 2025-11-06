@@ -1,0 +1,12 @@
+services:
+  nodered:
+    image: nodered/node-red:4.1.0-22
+    container_name: rss_feed_nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./node_red_data:/data
+    environment:
+      - TZ=Europe/Bucharest
+    restart: unless-stopped
+    command: sh -c "npm install && node-red"

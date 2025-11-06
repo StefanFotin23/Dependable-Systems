@@ -1,0 +1,13 @@
+---
+- name: Wait for Node-RED pods to be ready
+  shell: kubectl wait --for=condition=ready pod -l app=node-red --timeout=180s
+  register: wait_output
+  ignore_errors: true
+
+- name: Display pod status
+  shell: kubectl get pods -o wide
+  register: pods
+  changed_when: false
+
+- debug:
+    var: pods.stdout

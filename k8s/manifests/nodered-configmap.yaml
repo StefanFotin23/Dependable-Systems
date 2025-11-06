@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nodered-config
+  namespace: default
+data:
+  RSS_URL_ALERTS: "http://www.meteoromania.ro/anm2/avertizari-rss.php"
+  XML_URL_FORECAST: "http://www.meteoromania.ro/anm/prognoza-orase-xml.php"

@@ -1,0 +1,46 @@
+- name: "[Prometheus] Add Prometheus community Helm repository"
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: https://prometheus-community.github.io/helm-charts
+
+- name: "[Prometheus] Create monitoring namespace"
+  kubernetes.core.k8s:
+    name: monitoring
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: "[Prometheus] Install kube-prometheus-stack"
+  kubernetes.core.helm:
+    name: kube-prometheus-stack
+    chart_ref: prometheus-community/kube-prometheus-stack
+    release_namespace: monitoring
+    create_namespace: true
+    values:
+      alertmanager:
+        enabled: false
+      prometheus-node-exporter:
+        enabled: true
+      prometheusOperator:
+        enabled: true
+      grafana:
+        enabled: true
+
+- name: "[Loki] Add Grafana Helm repository"
+  kubernetes.core.helm_repository:
+    name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+
+- name: "[Loki] Install Loki and Promtail for log aggregation"
+  kubernetes.core.helm:
+    name: loki-stack
+    chart_ref: grafana/loki-stack
+    release_namespace: monitoring
+    values:
+      # Keep it lightweight for local dev
+      loki:
+        replicas: 1
+      promtail:
+        enabled: true
+      grafana:
+        enabled: false # Grafana is already installed by prometheus-stack

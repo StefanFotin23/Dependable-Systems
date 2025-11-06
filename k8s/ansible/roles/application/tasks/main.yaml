@@ -1,0 +1,13 @@
+- name: "[Node-RED] Deploy Node-RED application manifests"
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: "~/.kube/config"
+    context: "kind-{{ cluster_name }}"
+    src: "{{ item }}"
+  loop:
+    - "{{ k8s_manifests_path }}/nodered-configmap.yaml"
+    - "{{ k8s_manifests_path }}/nodered-secrets.yaml"
+    - "{{ k8s_manifests_path }}/pvc-nodered.yaml"
+    - "{{ k8s_manifests_path }}/pdb-nodered.yaml"
+    - "{{ k8s_manifests_path }}/nodered-deployment.yaml"
+    - "{{ k8s_manifests_path }}/nodered-service-ingress.yaml"

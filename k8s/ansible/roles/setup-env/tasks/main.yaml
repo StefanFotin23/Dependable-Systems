@@ -1,0 +1,22 @@
+---
+- name: Install dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker.io
+    - curl
+    - apt-transport-https
+    - ca-certificates
+
+- name: Install kind if not present
+  shell: |
+    if ! command -v kind >/dev/null; then
+      curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
+      chmod +x /usr/local/bin/kind
+    fi
+
+- name: Create Kind cluster
+  shell: bash k8s/kind/create-kind-cluster.sh
+  args:
+    chdir: "{{ playbook_dir }}/../.."

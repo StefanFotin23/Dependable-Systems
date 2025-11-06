@@ -1,0 +1,29 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    cluster_name: "rss-feed-cluster"
+    kind_config_path: "../kind/kind-config.yaml"
+    k8s_manifests_path: "../manifests"
+
+  tasks:
+    - name: "==> STEP 1: PROVISION KIND CLUSTER"
+      import_role:
+        name: cluster
+
+    - name: "==> STEP 2: DEPLOY STORAGE (LONGHORN + VELERO)"
+      import_role:
+        name: storage
+
+    - name: "==> STEP 3: DEPLOY OBSERVABILITY STACK"
+      import_role:
+        name: observability
+
+    - name: "==> STEP 4: DEPLOY NETWORKING (INGRESS + CERT-MANAGER)"
+      import_role:
+        name: networking
+
+    - name: "==> STEP 5: DEPLOY NODE-RED APPLICATION"
+      import_role:
+        name: application

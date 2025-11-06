@@ -1,0 +1,15 @@
+---
+- name: Apply StorageClass
+  shell: kubectl apply -f k8s/manifests/storageclass.yaml
+
+- name: Apply PersistentVolumeClaim
+  shell: kubectl apply -f k8s/manifests/pvc-nodered.yaml
+
+- name: Deploy Node-RED
+  shell: kubectl apply -f k8s/manifests/nodered-deployment.yaml
+
+- name: Create Service and Ingress
+  shell: kubectl apply -f k8s/manifests/nodered-service-ingress.yaml
+
+- name: Configure Backup CronJob
+  shell: kubectl apply -f k8s/manifests/cronjob-backup.yaml
