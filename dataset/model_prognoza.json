@@ -1,0 +1,1463 @@
+{
+    "Prognoza_AdmNatMeteorologie_Romania": {
+        "tara": [
+            {
+                "$": {
+                    "nume": "Romania"
+                },
+                "localitate": [
+                    {
+                        "$": {
+                            "nume": "Arad"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "8",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "3",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "17",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "5",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "17",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER TEMPORAR NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "002-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "200"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "3",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Botosani"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "3",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "12",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "3",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "15",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "5",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "200"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Bucuresti"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "7",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "17",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "20",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "17",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "8",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Cluj-Napoca"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "5",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "15",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "8",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "200"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "10",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Constanta"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "200"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "10",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "10",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "18",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "19",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Craiova"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "7",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "15",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Iasi"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "4",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "3",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "15",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "4",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "17",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "4",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER PARTIAL NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "001-2"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Rm. Valcea"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER PARTIAL NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "001-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "7",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "6",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "18",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER TEMPORAR NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "002-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "5",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "15",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Sibiu"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "5",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "12",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER PARTIAL NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "001-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "1",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER TEMPORAR NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "002-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "7",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "12",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "2",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "$": {
+                            "nume": "Sulina"
+                        },
+                        "DataPrognozei": [
+                            "2025-10-14"
+                        ],
+                        "prognoza": [
+                            {
+                                "$": {
+                                    "data": "2025-10-15"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "12",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS"
+                                ],
+                                "fenomen_simbol": [
+                                    "200"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-16"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-17"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "11",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-18"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "13",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "16",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER MAI MULT NOROS, PLOAIE SLABA"
+                                ],
+                                "fenomen_simbol": [
+                                    "202-2"
+                                ]
+                            },
+                            {
+                                "$": {
+                                    "data": "2025-10-19"
+                                },
+                                "temp_min": [
+                                    {
+                                        "_": "9",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "temp_max": [
+                                    {
+                                        "_": "14",
+                                        "$": {
+                                            "unit": "Celsius"
+                                        }
+                                    }
+                                ],
+                                "fenomen_descriere": [
+                                    "CER VARIABIL"
+                                ],
+                                "fenomen_simbol": [
+                                    "001"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

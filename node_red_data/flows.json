@@ -1,0 +1,167 @@
+[
+    {
+        "id": "a3a7b3e3.d9e45",
+        "type": "tab",
+        "label": "Flux Depanare",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d2a8b3c9.2d575",
+        "type": "inject",
+        "z": "a3a7b3e3.d9e45",
+        "name": "RULEAZĂ PENTRU AVERTIZĂRI",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "a1b2c3d4.5e4f5"
+            ]
+        ]
+    },
+    {
+        "id": "a1b2c3d4.5e4f5",
+        "type": "http request",
+        "z": "a3a7b3e3.d9e45",
+        "name": "Preluare Avertizări RSS",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://www.meteoromania.ro/anm2/avertizari-rss.php",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 470,
+        "y": 100,
+        "wires": [
+            [
+                "b2c3d4e5.6f5g6"
+            ]
+        ]
+    },
+    {
+        "id": "b2c3d4e5.6f5g6",
+        "type": "xml",
+        "z": "a3a7b3e3.d9e45",
+        "name": "Parsare XML",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 670,
+        "y": 100,
+        "wires": [
+            [
+                "ab12cd34.ef56ab"
+            ]
+        ]
+    },
+    {
+        "id": "ab12cd34.ef56ab",
+        "type": "debug",
+        "z": "a3a7b3e3.d9e45",
+        "name": "OUTPUT AVERTIZĂRI",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e5f6g7h8.9i8j9",
+        "type": "inject",
+        "z": "a3a7b3e3.d9e45",
+        "name": "RULEAZĂ PENTRU PROGNOZĂ",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 240,
+        "wires": [
+            [
+                "f6g7h8i9.0j9k0"
+            ]
+        ]
+    },
+    {
+        "id": "f6g7h8i9.0j9k0",
+        "type": "http request",
+        "z": "a3a7b3e3.d9e45",
+        "name": "Preluare Prognoză XML",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://www.meteoromania.ro/anm/prognoza-orase-xml.php",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "g7h8i9j0.1k0l1"
+            ]
+        ]
+    },
+    {
+        "id": "g7h8i9j0.1k0l1",
+        "type": "xml",
+        "z": "a3a7b3e3.d9e45",
+        "name": "Parsare XML",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 670,
+        "y": 240,
+        "wires": [
+            [
+                "bc23de45.fg67hi"
+            ]
+        ]
+    },
+    {
+        "id": "bc23de45.fg67hi",
+        "type": "debug",
+        "z": "a3a7b3e3.d9e45",
+        "name": "OUTPUT PROGNOZĂ",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 240,
+        "wires": []
+    }
+]

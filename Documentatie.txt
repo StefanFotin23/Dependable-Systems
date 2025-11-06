@@ -1,0 +1,32 @@
+1) Principii arhitecturale (obiective)
+
+- Disponibilitate 24/7: aplicatia trebuie sa ramana accesibila chiar daca un nod fizic cade.
+
+- Fiabilitate: replicare si stocare a datelor rss achizitionate, redundanta si recovery in cazul in care un nod fizic cade.
+
+- Metrice & Observabilitate: logare, metrici, alerte pentru downtime/erori.
+
+2) Arhitectura incipienta
+- Plecam de la niste idei de arhitectura pe care le consideram potrivite pentru obiectivele noastre. 
+- In procesul de cercetare si dezvoltare, se mai pot aduce modificari. 
+- Alegerile tin cont de cultura mea generala si de un research minim preliminar.
+
+3) Solutie propusa:
+- Kubernetes - cluster cu minim 2 noduri (in prod putem folosi nod-uri de la provideri si regiuni diferite, asigura uptime permanent)
+- Node-RED: tool ideal pentru scraping de date la interval de timp bine stabilit, asigura disponibilitate si scalabilitate
+deoarece este un tool optimizat pentru acest gen de taskuri big-data si cloud, IoT etc. Este disponibila imagine Docker oficiala.
+
+- Storage rezilient: 
+Putem folosi: - Rook/Ceph: distribuire, replicare, RWX
+              - Longhorn: multi-node replicated block storage
+              - NFS + backup 
+- Backup & Restore: Velero (backup cluster + PV snapshots)
+- Observabilitate: - Prometheus + ALertmanager pt metrici
+                   - Loki + Grafana pt logs & dashboards
+- Ingress/Load Balancer: Ingress (Nginx) + cert-manager pt TLS
+- Config & Secrets: ConfigMap pt URL feed, Secret pt credentiale, RBAC restrictionat
+
+4) Dezvoltari ulterioare - proces de urmat in implementare
+    Procesul de dezvoltare va pleca de la acest template arhitectural si va ajunge in urma cercetarii si implementarii la solutia finala,
+care va satisface toate caracteristicile de Sisteme de Incredere relevante proiectului. 
+Toate ideile prezentate mai sus au rol de ghidaj, vom vedea ce se potriveste mai bine pentru proiect pe parcursul implementarii.

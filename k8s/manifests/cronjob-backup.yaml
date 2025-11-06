@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nodered-backup
+spec:
+  schedule: "0 */6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: backup
+              image: bitnami/aws-cli:2.15.0
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: s3-creds
+                      key: access
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: s3-creds
+                      key: secret
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  tar -czf /tmp/nodered-data-$(date +%s).tgz /data \
+                  && aws s3 cp /tmp/nodered-data-*.tgz s3://my-backups/nodered/ || exit 1
+          restartPolicy: OnFailure
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: nodered-data-pvc

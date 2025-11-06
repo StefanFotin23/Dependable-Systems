@@ -1,0 +1,93 @@
+- name: "[Longhorn] Install Longhorn for distributed block storage"
+  kubernetes.core.k8s:
+    state: present
+    src: https://raw.githubusercontent.com/longhorn/longhorn/v1.6.2/deploy/longhorn.yaml
+
+- name: "[Longhorn] Wait for all Longhorn pods to be ready"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: longhorn-system
+  register: longhorn_pods
+  until: "longhorn_pods.resources | default([]) | length > 0 and (longhorn_pods.resources | selectattr('status.phase', 'equalto', 'Running') | list | length) == (longhorn_pods.resources | length)"
+  retries: 90
+  delay: 10
+
+- name: "[MinIO] Deploy MinIO for Velero backups"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ k8s_manifests_path }}/minio.yaml"
+
+- name: "[MinIO] Wait for MinIO pods to be ready"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: default
+    label_selectors:
+      - app=minio
+  register: minio_pods
+  until: "minio_pods.resources | default([]) | length > 0 and (minio_pods.resources | selectattr('status.phase', 'equalto', 'Running') | list | length) == (minio_pods.resources | length)"
+  retries: 30
+  delay: 10
+
+- name: "[Velero] Add Velero Helm repository"
+  kubernetes.core.helm_repository:
+    name: vmware-tanzu
+    repo_url: https://vmware-tanzu.github.io/helm-charts
+
+- name: "[Velero] Create Velero namespace"
+  kubernetes.core.k8s:
+    name: velero
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: "[Velero] Install Velero using Helm"
+  kubernetes.core.helm:
+    name: velero
+    chart_ref: vmware-tanzu/velero
+    release_namespace: velero
+    create_namespace: true
+    values:
+      configuration:
+        backupStorageLocations:
+          - name: default
+            provider: aws
+            bucket: velero
+            config:
+              region: minio
+              s3ForcePathStyle: "true"
+              s3Url: http://minio-service.default.svc:9000
+        volumeSnapshotLocations:
+          - name: default
+            provider: aws
+            config:
+              region: minio
+      snapshotsEnabled: true
+      csi:
+        enabled: true
+      credentials:
+        useSecret: true
+        existingSecret: minio-secret
+      initContainers:
+        - name: velero-plugin-for-aws
+          image: velero/velero-plugin-for-aws:v1.9.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /target
+              name: plugins
+
+- name: "[Velero] Wait for Velero pods to be ready"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: velero
+    label_selectors:
+      - app.kubernetes.io/name=velero
+  register: velero_pods
+  until: "velero_pods.resources | default([]) | length > 0 and (velero_pods.resources | selectattr('status.phase', 'equalto', 'Running') | list | length) == (velero_pods.resources | length)"
+  retries: 30
+  delay: 10
+
+
+
