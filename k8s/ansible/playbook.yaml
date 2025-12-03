@@ -1,11 +1,11 @@
-- hosts: localhost
-  connection: local
+- hosts: k8s_cluster
   gather_facts: false
 
   vars:
     cluster_name: "rss-feed-cluster"
     kind_config_path: "../kind/kind-config.yaml"
     k8s_manifests_path: "../manifests"
+    storage_class_name: "{{ 'standard' if is_wsl | default(false) else 'longhorn-replicated' }}"
 
   tasks:
     - name: "==> STEP 1: PROVISION KIND CLUSTER"

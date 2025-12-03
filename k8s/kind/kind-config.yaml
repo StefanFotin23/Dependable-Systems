@@ -3,10 +3,6 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: rss-feed-cluster
 nodes:
 - role: control-plane
-  extraMounts:
-  - hostPath: /lib/modules
-    containerPath: /lib/modules
-    readOnly: true
   # port forward 80 and 443 to the host machine
   kubeadmConfigPatches:
   - |
@@ -22,12 +18,4 @@ nodes:
     hostPort: 8448
     protocol: TCP
 - role: worker
-  extraMounts:
-  - hostPath: /lib/modules
-    containerPath: /lib/modules
-    readOnly: true
 - role: worker
-  extraMounts:
-  - hostPath: /lib/modules
-    containerPath: /lib/modules
-    readOnly: true

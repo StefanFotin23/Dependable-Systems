@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Descriere proiect
 Date in timp real despre avertizari meteorologice pot fi descarcate prin intermediul unui feed RSS (http://www.meteoromania.ro/anm2/avertizari-rss.php) si adaugate de asemenea intr-un dashboard Web. Aceste date, astfel preluate, vor fi cuplate cu informatii meteo ce sunt disponibile pe platforme nationale in format XML. De exemplu informatii meteo despre prognoza sunt disponibile la adresa http://www.meteoromania.ro/anm/prognoza-orase-xml.php , in format XML. Servicii de sincronizare dezvoltate in cadrul temei vor descarca datele periodic, le vor interpreta si integra in dashboard.
 
@@ -6,67 +5,96 @@ Date in timp real despre avertizari meteorologice pot fi descarcate prin interme
 
 # Arhitectură și Operare
 
-Acest document descrie arhitectura sistemului și modul de operare pentru mediul de producție simulat local. Sistemul este proiectat pentru a fi fiabil, cu disponibilitate ridicată și recuperare rapidă în caz de erori (dependable system).
+Acest document descrie arhitectura și modul de operare al proiectului. Setup-ul este automatizat cu Ansible și este proiectat să funcționeze în două moduri distincte: **development** și **production**.
 
-## 1. Arhitectura de Ansamblu
+## Arhitectura de Ansamblu
 
-Proiectul folosește **Kubernetes** ca platformă de orchestrare a containerelor, cu toate componentele definite declarativ prin manifeste și automatizare prin Ansible. Pentru dezvoltare locală, se utilizează **KIND (Kubernetes in Docker)**.
+Proiectul folosește **Kubernetes** ca platformă de orchestrare, **Ansible** pentru automatizare, și un set de unelte Cloud Native pentru a asigura fiabilitatea.
 
-### Componente Cheie:
+### Caracteristici de Fiabilitate (Dependability)
 
-*   **Ansible:** Utilizat pentru automatizarea completă a procesului de setup. Un singur playbook (`k8s/ansible/playbook.yaml`) instalează și configurează întregul mediu, de la clusterul Kubernetes până la aplicația finală.
-*   **Node-RED:** Aplicația principală, configurată să ruleze într-un container pe Kubernetes. Este configurată pentru înaltă disponibilitate într-un mod **Active-Passive**.
-*   **Longhorn:** O soluție de stocare distribuită (block storage) pentru Kubernetes. Asigură **persistența și replicarea datelor** pentru Node-RED. Dacă un nod din cluster eșuează, datele Node-RED sunt deja replicate pe alt nod, permițând un failover aproape instantaneu.
-*   **MinIO:** Un server de stocare obiecte S3-compatibil, utilizat pentru a stoca backup-urile datelor Node-RED.
-*   **Kubernetes CronJob:** Un job programat care rulează periodic pentru a crea **backup-uri automate** ale volumului Node-RED și a le salva în MinIO.
+Proiectul este conceput pentru a oferi un sistem robust și rezilient, respectând principiile Dependable Systems.
 
-### Strategia de Fiabilitate (Dependability):
+*   **Disponibilitate (Availability):**
+    *   **Failover Automat (Prod):** În modul de producție, Node-RED este configurat cu o singură replică (`Deployment`), dar utilizează Longhorn pentru stocare replicată. Dacă nodul pe care rulează pod-ul Node-RED eșuează, Kubernetes repornește automat pod-ul pe un alt nod sănătos, iar datele replicate sunt reatașate, asigurând continuitatea serviciului fără intervenție manuală.
+    *   **Protecție la Disrupții:** `PodDisruptionBudget` pentru Node-RED (unde este aplicabil) asigură că un număr minim de replici (în cazul nostru, 1) rămâne disponibil în timpul unor evenimente de mentenanță controlate.
+    *   **Izolare:** `PodAntiAffinity` ajută la distribuirea pod-urilor Node-RED pe noduri diferite (când sunt mai multe replici, în alte configurații), prevenind un singur punct de eșec.
 
-*   **Disponibilitate Ridicată (High Availability):**
-    *   **Model Active-Passive:** O singură replică Node-RED este activă, montând un volum de stocare `ReadWriteOnce`.
-    *   **Stocare Replicată:** Longhorn replică datele volumului pe mai multe noduri.
-    *   **Failover Automat:** Dacă nodul activ eșuează, Kubernetes repornește automat pod-ul Node-RED pe un nod sănătos, unde datele sunt deja disponibile datorită Longhorn. Acest proces asigură continuitatea serviciului.
-*   **Durabilitatea Datelor și Recuperare (Data Durability & Recovery):**
-    *   Datele Node-RED sunt stocate pe un `PersistentVolume` gestionat de Longhorn.
-    *   Backup-uri automate și periodice sunt trimise către MinIO printr-un `CronJob`, oferind o soluție de recuperare în caz de dezastru (disaster recovery). Script-ul `k8s/scripts/restore-from-s3.sh` poate fi folosit pentru a restaura datele.
+*   **Fiabilitate și Durabilitate a Datelor (Reliability & Data Durability):**
+    *   **Stocare Replicată (Prod):** Longhorn (în modul de producție) asigură protecția datelor prin replicarea volumelor persistente pe mai multe noduri ale clusterului. Aceasta previne pierderea datelor în cazul eșecului unui singur disc sau nod.
+    *   **Backup Automat:** MinIO servește ca backend S3-compatibil pentru backup-uri. În modul de producție, Velero realizează backup-uri complete ale stării clusterului și volumelor.
 
-## 2. Comenzi de Operare
+*   **Recuperabilitate (Recoverability):**
+    *   **Restaurare Granulară (Prod):** Velero permite restaurarea stării clusterului și a datelor aplicațiilor dintr-un backup, esențială pentru recuperarea după dezastre.
+    *   **Restaurare Aplicație (Dev/Prod):** Scripturi specifice (`k8s/scripts/restore-from-s3.sh`) sunt disponibile pentru a restaura datele aplicației Node-RED (MinIO) independent de Velero.
 
-Managementul ciclului de viață al proiectului se face simplu, prin `make`.
+*   **Mentenanță (Maintainability):**
+    *   **Automatizare Completă:** Ansible permite instalarea, configurarea și actualizarea întregului mediu într-un mod idempotent.
+    *   **Separare Dev/Prod:** Playbook-ul detectează automat mediul, simplificând deploy-ul și testarea.
+    *   **Interfață Simplificată:** `Makefile` oferă o interfață ușor de utilizat pentru operații comune (`setup`, `start`, `stop`, `teardown`).
+    *   **Observabilitate (Prod):** Stack-uri precum Prometheus și Loki (instalate în modul de producție) oferă monitorizare și logare centralizată, facilitând depanarea și mentenanța.
 
-**Prerechizite:** Asigură-te că ai `make`, `docker`, `kubectl` și `ansible` instalate.
+### Medii de Operare
+
+Playbook-ul Ansible detectează automat mediul în care rulează și ajustează strategia de stocare:
+
+1.  **Development (WSL / Local)**
+    *   **Declanșator:** Rularea `make` pe un sistem WSL2.
+    *   **Cluster:** Creează un cluster local folosind **KIND** (Kubernetes in Docker).
+    *   **Stocare:** Folosește `local-path-provisioner` (StorageClass `standard`).
+    *   **Avantaj:** Funcționează rapid, local, fără dependențe de kernel-ul gazdă.
+    *   **Dezavantaj:** Stocarea nu este replicată. Pierderea unui nod duce la pierderea datelor de pe acel nod. **Nu este 'production-ready'**.
+
+2.  **Production (GCP VM / Server Remote)**
+    *   **Declanșator:** Rularea `make` pe un sistem Linux standard (non-WSL).
+    *   **Cluster:** Presupune că un cluster Kubernetes (ex: **GKE**) **există deja** și este configurat în `kubectl`.
+    *   **Stocare:** Instalează și configurează **Longhorn** pentru stocare distribuită, replicată și cu înaltă disponibilitate (StorageClass `longhorn-replicated`).
+    *   **Backup:** Instalează și configurează **Velero** pentru backup-uri avansate ale stării cluster-ului și volumelor persistente, folosind MinIO ca backend.
+    *   **Avantaj:** O arhitectură robustă, fiabilă, gata pentru producție.
+
+## Comenzi de Operare (`make`)
+
+Managementul proiectului este simplificat prin `Makefile`.
 
 *   **Afișează comenzile disponibile:**
     ```bash
     make help
     ```
 
-*   **Setup Inițial (Crearea Mediului):**
-    *Creează clusterul KIND și instalează toate componentele (Longhorn, MinIO, Node-RED etc.) folosind Ansible.*
+*   **Setup-ul Mediului:**
+    Rulează playbook-ul Ansible pentru a instala și configura toate componentele.
     ```bash
+    # Pentru mediul de dezvoltare (default)
     make setup
+
+    # Pentru mediul de producție (rulează pe un VM remote)
+    make setup ENV=prod
     ```
 
-*   **Pornire Aplicație (Start):**
-    *Pornește aplicația Node-RED, asigurând o replică activă.*
+*   **Management Aplicație:**
     ```bash
+    # Pornește aplicația Node-RED
     make start
-    ```
 
-*   **Oprire Aplicație (Stop):**
-    *Oprește aplicația Node-RED (scalează replicele la 0), păstrând datele intacte.*
-    ```bash
+    # Oprește aplicația Node-RED
     make stop
     ```
 
-*   **Ștergerea Mediului (Teardown):**
-    *Șterge complet clusterul Kubernetes local.*
-    ⚠️ **Atenție:** Această acțiune este distructivă.
+*   **Curățare Mediu de Dezvoltare:**
+    *Șterge clusterul KIND local. Nu are efect în producție.*
     ```bash
     make teardown
     ```
-=======
-# Descriere proiect 
-8. Feed-uri RSS
-Date in timp real despre avertizari meteorologice pot fi descarcate prin intermediul unui feed RSS (http://www.meteoromania.ro/anm2/avertizari-rss.php) si adaugate de asemenea intr-un dashboard Web. Aceste date, astfel preluate, vor fi cuplate cu informatii meteo ce sunt disponibile pe platforme nationale in format XML. De exemplu informatii meteo despre prognoza sunt disponibile la adresa http://www.meteoromania.ro/anm/prognoza-orase-xml.php , in format XML. Servicii de sincronizare dezvoltate in cadrul temei vor descarca datele periodic, le vor interpreta siintegra in dashboard.
->>>>>>> e90db4fe90a66d25340c7c60b5c4fb7aa4383284
+
+## Workflow pentru Producție (cu GCP și GKE)
+
+1.  **Creați un cluster GKE:** Folosiți consola Google Cloud pentru a crea un cluster Kubernetes standard.
+2.  **Pregătiți un VM de Bootstrap:** Creați un VM mic (ex: e2-micro Ubuntu) în același proiect GCP.
+3.  **Rulați Script-ul de Bootstrap:**
+    *   Copiați script-ul `bootstrap-prod.sh` pe noul VM.
+    *   Faceți-l executabil: `chmod +x bootstrap-prod.sh`.
+    *   Rulați-l, oferind URL-ul repo-ului Git:
+        ```bash
+        ./bootstrap-prod.sh https://github.com/your-user/your-repo.git
+        ```
+    *   Script-ul va instala toate dependențele, va clona proiectul și va rula `make setup ENV=prod`. Playbook-ul Ansible se va conecta la clusterul GKE (asumând că `kubectl` este configurat corespunzător) și va instala aplicația în modul de producție.
