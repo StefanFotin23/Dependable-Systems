@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Descriere proiect
 Date in timp real despre avertizari meteorologice pot fi descarcate prin intermediul unui feed RSS (http://www.meteoromania.ro/anm2/avertizari-rss.php) si adaugate de asemenea intr-un dashboard Web. Aceste date, astfel preluate, vor fi cuplate cu informatii meteo ce sunt disponibile pe platforme nationale in format XML. De exemplu informatii meteo despre prognoza sunt disponibile la adresa http://www.meteoromania.ro/anm/prognoza-orase-xml.php , in format XML. Servicii de sincronizare dezvoltate in cadrul temei vor descarca datele periodic, le vor interpreta si integra in dashboard.
 
@@ -64,3 +65,8 @@ Managementul ciclului de viață al proiectului se face simplu, prin `make`.
     ```bash
     make teardown
     ```
+=======
+# Descriere proiect 
+8. Feed-uri RSS
+Date in timp real despre avertizari meteorologice pot fi descarcate prin intermediul unui feed RSS (http://www.meteoromania.ro/anm2/avertizari-rss.php) si adaugate de asemenea intr-un dashboard Web. Aceste date, astfel preluate, vor fi cuplate cu informatii meteo ce sunt disponibile pe platforme nationale in format XML. De exemplu informatii meteo despre prognoza sunt disponibile la adresa http://www.meteoromania.ro/anm/prognoza-orase-xml.php , in format XML. Servicii de sincronizare dezvoltate in cadrul temei vor descarca datele periodic, le vor interpreta siintegra in dashboard.
+>>>>>>> e90db4fe90a66d25340c7c60b5c4fb7aa4383284
