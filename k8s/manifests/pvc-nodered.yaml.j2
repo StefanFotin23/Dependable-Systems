@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-replicated
+  storageClassName: "{{ storage_class_name }}"
   resources:
     requests:
       storage: 1Gi

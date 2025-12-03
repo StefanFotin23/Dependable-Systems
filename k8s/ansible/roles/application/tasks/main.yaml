@@ -1,4 +1,10 @@
-- name: "[Node-RED] Deploy Node-RED application manifests"
+- name: "[Node-RED] Render the Node-RED PVC manifest template"
+  ansible.builtin.template:
+    src: "{{ k8s_manifests_path }}/pvc-nodered.yaml.j2"
+    dest: "/tmp/pvc-nodered.yaml"
+  delegate_to: localhost
+
+- name: "[Node-RED] Deploy Node-RED PVC and static application manifests"
   kubernetes.core.k8s:
     state: present
     kubeconfig: "~/.kube/config"
@@ -7,7 +13,7 @@
   loop:
     - "{{ k8s_manifests_path }}/nodered-configmap.yaml"
     - "{{ k8s_manifests_path }}/nodered-secrets.yaml"
-    - "{{ k8s_manifests_path }}/pvc-nodered.yaml"
+    - "/tmp/pvc-nodered.yaml"  # Use the rendered template
     - "{{ k8s_manifests_path }}/pdb-nodered.yaml"
     - "{{ k8s_manifests_path }}/nodered-deployment.yaml"
     - "{{ k8s_manifests_path }}/nodered-service-ingress.yaml"
