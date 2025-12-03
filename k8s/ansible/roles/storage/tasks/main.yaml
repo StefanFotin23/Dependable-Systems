@@ -13,6 +13,11 @@
   retries: 90
   delay: 10
 
+- name: "[Longhorn] Apply custom replicated StorageClass"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ k8s_manifests_path }}/storageclass.yaml"
+
 - name: "[MinIO] Deploy MinIO for Velero backups"
   kubernetes.core.k8s:
     state: present

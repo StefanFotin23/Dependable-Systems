@@ -6,3 +6,19 @@
 - name: Create kind cluster
   command: kind create cluster --config {{ kind_config_path }}
   when: cluster_name not in kind_clusters.stdout
+
+- name: Get node container names
+  shell: "docker ps -a --filter 'name={{ cluster_name }}' --format '{{ '{{' }}.Names{{ '}}' }}'"
+  register: node_containers
+  changed_when: false
+  when: cluster_name not in kind_clusters.stdout # Only run if cluster was just created
+
+- name: Install open-iscsi dependencies on newly created nodes
+  command: "docker exec {{ item }} /bin/bash -c 'apt-get update && apt-get install -y open-iscsi && systemctl start iscsid'"
+  loop: "{{ node_containers.stdout_lines }}"
+  when: node_containers.stdout is defined and node_containers.stdout_lines | length > 0
+
+- name: Load iSCSI kernel modules on nodes
+  command: "docker exec {{ item }} modprobe iscsi_tcp && docker exec {{ item }} modprobe ib_iser"
+  loop: "{{ node_containers.stdout_lines }}"
+  when: node_containers.stdout is defined and node_containers.stdout_lines | length > 0
