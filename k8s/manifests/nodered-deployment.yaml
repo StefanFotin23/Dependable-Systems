@@ -23,6 +23,8 @@ spec:
                 values:
                 - nodered
             topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        fsGroup: 1000          # Setează ownership-ul volume-ului la 1000:1000
       containers:
       - name: nodered
         image: nodered/node-red:latest
@@ -36,6 +38,9 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
+        securityContext:
+          runAsUser: 1000        # Node-RED rulează ca user node-red
+          runAsGroup: 1000
       volumes:
       - name: data
         persistentVolumeClaim:
