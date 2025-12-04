@@ -16,11 +16,10 @@ kind: Ingress
 metadata:
   name: nodered-ingress
   namespace: default
+{% if not is_wsl %}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    # For kind with self-signed certs, we might need a different issuer or approach
-    # Using a self-signed issuer for now
     cert-manager.io/cluster-issuer: "selfsigned-issuer"
+{% endif %}
 spec:
   rules:
   - host: nodered.local
@@ -33,14 +32,18 @@ spec:
             name: nodered-service
             port:
               number: 80
+{% if not is_wsl %}
   tls:
   - hosts:
     - nodered.local
     secretName: nodered-tls-secret
+{% endif %}
 ---
+{% if not is_wsl %}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: selfsigned-issuer
 spec:
   selfSigned: {}
+{% endif %}
