@@ -1,7 +1,7 @@
 - name: "[NGINX Ingress] Install NGINX Ingress Controller"
   kubernetes.core.k8s:
     state: present
-    src: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+    src: ingress-nginx-kind-deploy.yaml
 
 - name: "[NGINX Ingress] Wait for Ingress Controller to be ready"
   kubernetes.core.k8s_info:

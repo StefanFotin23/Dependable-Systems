@@ -1,0 +1,12 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Debug NGROK_AUTHTOKEN
+      ansible.builtin.debug:
+        msg: "NGROK_AUTHTOKEN is: {{ lookup('env', 'NGROK_AUTHTOKEN') }}"
+
+    - name: Render ngrok config file
+      ansible.builtin.template:
+        src: ../ngrok.yml.j2
+        dest: /home/stefan/snap/ngrok/current/.config/ngrok/ngrok.yml

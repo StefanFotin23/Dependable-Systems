@@ -40,7 +40,15 @@
       # Keep it lightweight for local dev
       loki:
         replicas: 1
+        isDefault: false # Do not set Loki as the default datasource
       promtail:
         enabled: true
       grafana:
         enabled: false # Grafana is already installed by prometheus-stack
+
+- name: "[Observability] Deploy Ingress for Grafana and Prometheus"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ k8s_manifests_path }}/observability-ingress.yaml"
+    kubeconfig: "~/.kube/config"
+    context: "kind-{{ cluster_name }}"

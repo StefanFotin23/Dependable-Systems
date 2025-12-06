@@ -1,0 +1,7 @@
+version: "2"
+authtoken: "{{ lookup('env', 'NGROK_AUTHTOKEN') }}"
+tunnels:
+  nodered:
+    proto: http
+    addr: 41080
+    host_header: nodered.local

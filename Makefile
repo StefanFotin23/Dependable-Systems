@@ -1,8 +1,14 @@
 .PHONY: setup start stop teardown help
 
+SHELL=/bin/bash
+
 # Default environment is 'dev' (WSL/local).
 # To run for production, use: make setup ENV=prod
 ENV ?= dev
+
+# Load environment variables from .env file
+-include .env
+export
 
 help:
 	@echo "Usage: make <target> [ENV=<environment>]"
@@ -12,6 +18,9 @@ help:
 	@echo "  start      - Starts the Node-RED application by scaling replicas to 1."
 	@echo "  stop       - Stops the Node-RED application by scaling replicas to 0."
 	@echo "  teardown   - Deletes the KIND Kubernetes cluster (for DEV environment only)."
+	@echo "  ngrok-install - Installs the ngrok client."
+	@echo "  tunnel-start - Starts the ngrok tunnel to expose Node-RED."
+	@echo "  tunnel-stop  - Stops the ngrok tunnel."
 	@echo "  help       - Shows this help message."
 	@echo ""
 	@echo "Environments:"
@@ -22,6 +31,18 @@ help:
 setup:
 	@echo "--> Running setup for [${ENV}] environment..."
 	@bash scripts/setup.sh ${ENV}
+
+ngrok-install:
+	@echo "--> Installing ngrok client..."
+	@bash scripts/install_ngrok.sh
+
+tunnel-start:
+	@echo "--> Starting ngrok tunnel..."
+	@NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN} bash scripts/start_tunnel.sh
+
+tunnel-stop:
+	@echo "--> Stopping ngrok tunnel..."
+	@killall ngrok || true
 
 start:
 	@echo "--> Starting Node-RED application..."
