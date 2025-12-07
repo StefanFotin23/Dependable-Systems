@@ -21,6 +21,7 @@ help:
 	@echo "  ngrok-install - Installs the ngrok client."
 	@echo "  tunnel-start - Starts the ngrok tunnel to expose Node-RED."
 	@echo "  tunnel-stop  - Stops the ngrok tunnel."
+	@echo "  update     - Applies specific Ansible changes. Use with TAGS (e.g., make update TAGS=observability)."
 	@echo "  help       - Shows this help message."
 	@echo ""
 	@echo "Environments:"
@@ -55,3 +56,7 @@ stop:
 teardown:
 	@echo "--> Tearing down DEV environment..."
 	@bash scripts/teardown.sh
+
+update:
+	@echo "--> Running update for [${ENV}] environment with tags [${TAGS}]..."
+	@bash scripts/update.sh ${ENV} ${TAGS}

@@ -25,6 +25,13 @@
         enabled: true
       grafana:
         enabled: true
+        grafana.ini:
+          server:
+            root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
+            serve_from_sub_path: true
+      prometheus:
+        prometheusSpec:
+          externalUrl: /prometheus
 
 - name: "[Loki] Add Grafana Helm repository"
   kubernetes.core.helm_repository:
