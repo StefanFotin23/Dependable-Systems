@@ -1,0 +1,728 @@
+[
+    {
+        "id": "454db83ef85d1f44",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "tab_meteo",
+        "type": "ui_tab",
+        "name": "Meteo Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "grp_avertizari",
+        "type": "ui_group",
+        "name": "Avertizări ANM",
+        "tab": "tab_meteo",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "grp_prognoza",
+        "type": "ui_group",
+        "name": "Prognoză Meteo",
+        "tab": "tab_meteo",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "2da71f69429cad68",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "ed1b3ac855572b29",
+        "type": "ui_group",
+        "name": "Telmetry Data",
+        "tab": "tab_meteo",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a4531b8f7f37fe6e",
+        "type": "inject",
+        "z": "454db83ef85d1f44",
+        "name": "Actualizare XML / 30 min",
+        "props": [],
+        "repeat": "1800",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "topic": "",
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "ff5ead28cb08abb6"
+            ]
+        ]
+    },
+    {
+        "id": "ff5ead28cb08abb6",
+        "type": "http request",
+        "z": "454db83ef85d1f44",
+        "name": "Download XML",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://www.meteoromania.ro/anm2/avertizari-rss.php",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 140,
+        "y": 480,
+        "wires": [
+            [
+                "e0df3c2e14dce828",
+                "7d9d015ddab16380"
+            ]
+        ]
+    },
+    {
+        "id": "e0df3c2e14dce828",
+        "type": "xml",
+        "z": "454db83ef85d1f44",
+        "name": "Parse XML",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 350,
+        "y": 480,
+        "wires": [
+            [
+                "69fd9278327cd735"
+            ]
+        ]
+    },
+    {
+        "id": "69fd9278327cd735",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Curățare date XML",
+        "func": "function getText(node) {\n    if (typeof node === \"string\") return node;\n    if (typeof node === \"object\") {\n        if (\"_\" in node) return node._;\n        let keys = Object.keys(node);\n        if (keys.length > 0) return node[keys[0]];\n    }\n    return \"\";\n}\n\nlet items = msg.payload.rss.channel[0].item;\n\nif (items.length === 1 && getText(items[0].title[0]).includes(\"Nu sunt avertizari\")) {\n    msg.payload = [{ \n        Avertizare: \"Nu sunt avertizari meteo active\", \n        Data: \"\", \n        Descriere: \"\" \n    }];\n} else {\n    msg.payload = items.map(i => ({\n        Avertizare: getText(i.title[0]),\n        Data: i.pubDate ? getText(i.pubDate[0]) : \"\",\n        Descriere: i.description ? getText(i.description[0]) : \"\"\n    }));\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "de2b3f43d667e23f",
+                "8447f90eac71dd04"
+            ]
+        ]
+    },
+    {
+        "id": "de2b3f43d667e23f",
+        "type": "ui_table",
+        "z": "454db83ef85d1f44",
+        "group": "grp_avertizari",
+        "name": "Avertizări ANM",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "columns": [
+            {
+                "field": "Avertizare",
+                "title": "Avertizare",
+                "width": "30%"
+            },
+            {
+                "field": "Data",
+                "title": "Data",
+                "width": "20%"
+            },
+            {
+                "field": "Descriere",
+                "title": "Descriere",
+                "width": "50%"
+            }
+        ],
+        "outputs": 0,
+        "x": 800,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0f548c4ad8ffb307",
+        "type": "inject",
+        "z": "454db83ef85d1f44",
+        "name": "Actualizare RSS / 5 min",
+        "props": [],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "topic": "",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "822e4e0498f3b2da"
+            ]
+        ]
+    },
+    {
+        "id": "822e4e0498f3b2da",
+        "type": "http request",
+        "z": "454db83ef85d1f44",
+        "name": "Download RSS",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://www.meteoromania.ro/anm/prognoza-orase-xml.php",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "ddf1ce627ea7df97",
+                "6f762c17c9196d96"
+            ]
+        ]
+    },
+    {
+        "id": "ddf1ce627ea7df97",
+        "type": "xml",
+        "z": "454db83ef85d1f44",
+        "name": "Parse XML RSS",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 360,
+        "y": 260,
+        "wires": [
+            [
+                "76fcad92c6778f58"
+            ]
+        ]
+    },
+    {
+        "id": "76fcad92c6778f58",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Curățare date RSS",
+        "func": "let data = [];\n\ntry {\n    let tari = msg.payload.Prognoza_AdmNatMeteorologie_Romania.tara;\n    tari.forEach(tara => {\n        tara.localitate.forEach(loc => {\n            let oras = loc['$'].nume;\n            loc.prognoza.forEach(p => {\n                data.push({\n                    Oras: oras,\n                    Data: p['$'].data,\n                    TempMin: p.temp_min[0]._ || \"\",\n                    TempMax: p.temp_max[0]._ || \"\",\n                    Fenomen: p.fenomen_descriere ? (p.fenomen_descriere[0]._ || \"\") : \"\",\n                    Simbol: p.fenomen_simbol ? (p.fenomen_simbol[0]._ || \"\") : \"\"\n                });\n            });\n        });\n    });\n} catch(err) {\n    node.warn(\"Error parsing XML: \"+err);\n}\n\nmsg.payload = data;\nflow.set(\"forecastData\", msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 260,
+        "wires": [
+            [
+                "cff74853733b100b",
+                "fde27a98c4eb48ba",
+                "db7c72415b7c495e"
+            ]
+        ]
+    },
+    {
+        "id": "7a65cad3fa604bc0",
+        "type": "ui_table",
+        "z": "454db83ef85d1f44",
+        "group": "grp_prognoza",
+        "name": "Prognoză Meteo",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "columns": [
+            {
+                "field": "Oras",
+                "title": "Oras",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Data",
+                "title": "Data",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "TempMin",
+                "title": "Min",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "TempMax",
+                "title": "Max",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Fenomen",
+                "title": "Fenomen",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Simbol",
+                "title": "Simbol",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1160,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6f762c17c9196d96",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Parse XML RSS",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 140,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7d9d015ddab16380",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Parse XML",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "cff74853733b100b",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Prognoza Meteo",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8447f90eac71dd04",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Avertizari ANM",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "89a43b751ec5ddbb",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Telemetry",
+        "func": "let cityData = msg.payload; // array cu obiectele pentru orasul selectat\n\nlet tempMin = cityData.map(d => Number(d.TempMin));\nlet tempMax = cityData.map(d => Number(d.TempMax));\nlet labels  = cityData.map(d => d.Data);\n\nmsg.payload = [{\n    series: [\"TempMin\", \"TempMax\"],\n    data: [tempMin, tempMax],\n    labels: labels\n}];\n\nlet allTemps = tempMin.concat(tempMax);\nlet rawMin = Math.min(...allTemps);\nlet rawMax = Math.max(...allTemps);\n\nlet yMin = Math.floor(rawMin * 0.9) - 1;\nlet yMax = Math.ceil(rawMax * 1.1) + 1;\n\n// Add chart options for dynamic Y-axis\nmsg.options = {\n    scales: {\n        y: {\n            min: yMin ,\n            max: yMax\n        }\n    }\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 120,
+        "wires": [
+            [
+                "95a246b781fe9086",
+                "23022de125d611a4"
+            ]
+        ]
+    },
+    {
+        "id": "7783cf32119bc1d8",
+        "type": "ui_dropdown",
+        "z": "454db83ef85d1f44",
+        "name": "Select City",
+        "label": "Select City",
+        "tooltip": "",
+        "place": "Oras",
+        "group": "grp_prognoza",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 770,
+        "y": 360,
+        "wires": [
+            [
+                "4416b7e64d090988"
+            ]
+        ]
+    },
+    {
+        "id": "fde27a98c4eb48ba",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Populate City",
+        "func": "let allData = flow.get(\"forecastData\") || [];\nlet cities = [...new Set(allData.map(d => d.Oras))].sort();\n\n// include \"All\" option\nmsg.options = [\"All\", ...cities];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            [
+                "7783cf32119bc1d8",
+                "01a3525b896edacc"
+            ]
+        ]
+    },
+    {
+        "id": "4416b7e64d090988",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Filter City",
+        "func": "let selectedCity = msg.payload; // payload = string selectat din dropdown\nlet allData = flow.get(\"forecastData\") || [];\n\n// dacă e \"All\" sau string gol, nu filtrăm\nif (!selectedCity || selectedCity === \"All\") {\n    msg.payload = allData; // toate datele\n} else {\n    msg.payload = allData.filter(d => d.Oras === selectedCity);\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 360,
+        "wires": [
+            [
+                "7a65cad3fa604bc0"
+            ]
+        ]
+    },
+    {
+        "id": "01a3525b896edacc",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Options",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "options",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "64cbfc37a086ab7f",
+        "type": "ui_dropdown",
+        "z": "454db83ef85d1f44",
+        "name": "Select City",
+        "label": "Select City",
+        "tooltip": "",
+        "place": "Oras",
+        "group": "ed1b3ac855572b29",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 770,
+        "y": 180,
+        "wires": [
+            [
+                "351b93dc4a3ef63d"
+            ]
+        ]
+    },
+    {
+        "id": "351b93dc4a3ef63d",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Filter City",
+        "func": "let selectedCity = msg.payload; // payload = string selectat din dropdown\nlet allData = flow.get(\"forecastData\") || [];\n\nmsg.payload = allData.filter(d => d.Oras === selectedCity);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 180,
+        "wires": [
+            [
+                "89a43b751ec5ddbb"
+            ]
+        ]
+    },
+    {
+        "id": "db7c72415b7c495e",
+        "type": "function",
+        "z": "454db83ef85d1f44",
+        "name": "Populate City",
+        "func": "let allData = flow.get(\"forecastData\") || [];\nlet cities = [...new Set(allData.map(d => d.Oras))].sort();\n\nmsg.options = cities;\n// setăm default la prima valoare din listă\nmsg.payload = cities[0] || \"\"; // dacă lista e goală, rămâne gol\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 180,
+        "wires": [
+            [
+                "64cbfc37a086ab7f"
+            ]
+        ]
+    },
+    {
+        "id": "95a246b781fe9086",
+        "type": "ui_chart",
+        "z": "454db83ef85d1f44",
+        "name": "Temp Chart",
+        "group": "ed1b3ac855572b29",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "D/M",
+        "interpolate": "linear",
+        "nodata": "Loading data...",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#fbff00",
+            "#397dea",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1150,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23022de125d611a4",
+        "type": "debug",
+        "z": "454db83ef85d1f44",
+        "name": "Telemetry Payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "47761d57e1400274",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-node-ui-table": "0.4.5"
+        }
+    }
+]
