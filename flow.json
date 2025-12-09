@@ -22,8 +22,9 @@
         "tab": "tab_meteo",
         "order": 1,
         "disp": true,
-        "width": "12",
-        "collapse": false
+        "width": "34",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "grp_prognoza",
@@ -139,7 +140,7 @@
         "tab": "tab_meteo",
         "order": 3,
         "disp": true,
-        "width": "12",
+        "width": "22",
         "collapse": false,
         "className": ""
     },
@@ -208,7 +209,7 @@
         "type": "function",
         "z": "454db83ef85d1f44",
         "name": "Curățare date XML",
-        "func": "function getText(node) {\n    if (typeof node === \"string\") return node;\n    if (typeof node === \"object\") {\n        if (\"_\" in node) return node._;\n        let keys = Object.keys(node);\n        if (keys.length > 0) return node[keys[0]];\n    }\n    return \"\";\n}\n\nlet items = msg.payload.rss.channel[0].item;\n\nif (items.length === 1 && getText(items[0].title[0]).includes(\"Nu sunt avertizari\")) {\n    msg.payload = [{ \n        Avertizare: \"Nu sunt avertizari meteo active\", \n        Data: \"\", \n        Descriere: \"\" \n    }];\n} else {\n    msg.payload = items.map(i => ({\n        Avertizare: getText(i.title[0]),\n        Data: i.pubDate ? getText(i.pubDate[0]) : \"\",\n        Descriere: i.description ? getText(i.description[0]) : \"\"\n    }));\n}\n\nreturn msg;\n",
+        "func": "function getText(node) {\n    if (typeof node === \"string\") return node;\n    if (typeof node === \"object\") {\n        if (\"_\" in node) return node._;\n        let keys = Object.keys(node);\n        if (keys.length > 0) return node[keys[0]];\n    }\n    return \"\";\n}\n\n// Curăță HTML\nfunction cleanHtml(text) {\n    return text\n        .replace(/<br\\s*\\/?>/gi, \"\\n\")\n        .replace(/<[^>]*>/g, \"\")\n        .replace(/\\n\\s*\\n/g, \"\\n\")\n        .trim();\n}\n\n// Extrage COD (GALBEN, PORTOCALIU, ROSU etc.)\nfunction extractCod(desc) {\n    let m = desc.match(/COD\\s*:\\s*([A-ZȘȚĂÂÎ]+)/i);\n    return m ? m[1].trim() : \"\";\n}\n\n// Extrage durata → \"23:00 - 02:00\"\nfunction extractDuration(desc) {\n    let m = desc.match(/Intre orele\\s*:\\s*([0-9:]+)\\s*si\\s*([0-9:]+)/i);\n    return m ? `${m[1]} - ${m[2]}` : \"\";\n}\n\n// Extrage ZONA\nfunction extractZona(desc) {\n    // Căutăm textul după \"În zona :\" sau \"In zona :\"\n    let m = desc.match(/În zona\\s*:\\s*([^:]+):/i) ||\n            desc.match(/In zona\\s*:\\s*([^:]+):/i);\n\n    if (!m) return \"\";\n\n    let zona = m[1].trim();\n\n    // Înlocuim „Județul X” → „Jud. X”\n    zona = zona.replace(/^Județul\\s+/i, \"Jud. \");\n\n    return zona;\n}\n\nfunction extractZonaExtinsa(desc) {\n    let start = null;\n\n    // 1. Căutăm textul după \"respectiv zona localităților:\"\n    let m1 = desc.match(/respectiv zona localităților\\s*:\\s*(.+)/i);\n    if (m1) start = m1[1];\n\n    // 2. Dacă nu există \"respectiv zona localităților:\", căutăm după \"În zona :\"\n    if (!start) {\n        let m2 = desc.match(/În zona\\s*:\\s*(.+)/i) || desc.match(/In zona\\s*:\\s*(.+)/i);\n        if (m2) start = m2[1];\n    }\n\n    if (!start) return \"\";\n\n    // 3. Tăiem tot ce e după \"Se vor semnala :\"\n    let parts = start.split(/Se vor semnala\\s*:/i);\n    let zona = parts[0].trim();\n\n    return zona;\n}\n\n\n// Extrage FENOMEN\nfunction extractFenomen(desc) {\n    // Căutăm textul după \"Se vor semnala :\" până la finalul liniei\n    let m = desc.match(/Se vor semnala\\s*:\\s*(.+)$/im);\n    return m ? m[1].trim() : \"\";\n}\n\n// Curăță avertizarea → eliminăm \"Tipul mesajului:\"\nfunction cleanAvertizare(text) {\n    return text.replace(/Tipul mesajului\\s*:/i, \"\").trim();\n}\n\nlet items = msg.payload.rss.channel[0].item;\n\nif (items.length === 1 && getText(items[0].title[0]).includes(\"Nu sunt avertizari\")) {\n    msg.payload = [{ \n        Cod: \"\",\n        Durata: \"\",\n        Avertizare: \"Nu sunt avertizari meteo active\",\n        Data: \"\",\n        Zona: \"\",\n        Fenomen: \"\",\n        ZonaExtinsa: \"\"\n    }];\n} else {\n    msg.payload = items.map(i => {\n        let rawDesc = i.description ? getText(i.description[0]) : \"\";\n        let cleanDesc = cleanHtml(rawDesc);\n\n        let cod = extractCod(cleanDesc);\n        let durata = extractDuration(cleanDesc);\n        let zona = extractZona(cleanDesc);\n        let fenomen = extractFenomen(cleanDesc);\n        let zonaExtinsa = extractZonaExtinsa(cleanDesc);\n\n        let avertizare = cleanAvertizare(getText(i.title[0]));\n        let data = i.pubDate ? getText(i.pubDate[0]) : \"\";\n\n        return {\n            Cod: cod,\n            Durata: durata,\n            Avertizare: avertizare,\n            Data: data,\n            Zona: zona,\n            Fenomen: fenomen,\n            ZonaExtinsa: zonaExtinsa\n        };\n    });\n}\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -231,26 +232,82 @@
         "group": "grp_avertizari",
         "name": "Avertizări ANM",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "34",
+        "height": "5",
         "columns": [
             {
                 "field": "Avertizare",
                 "title": "Avertizare",
-                "width": "30%"
+                "width": "9%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
             },
             {
                 "field": "Data",
                 "title": "Data",
-                "width": "20%"
+                "width": "12%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
             },
             {
-                "field": "Descriere",
-                "title": "Descriere",
-                "width": "50%"
+                "field": "Cod",
+                "title": "Cod",
+                "width": "4%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Durata",
+                "title": "Durata",
+                "width": "5%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Zona",
+                "title": "Zona",
+                "width": "6%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Fenomen",
+                "title": "Fenomen",
+                "width": "26%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "ZonaExtinsa",
+                "title": "ZonaExtinsa",
+                "width": "200%",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
             }
         ],
         "outputs": 0,
+        "cts": false,
         "x": 800,
         "y": 480,
         "wires": []
@@ -344,8 +401,8 @@
         "group": "grp_prognoza",
         "name": "Prognoză Meteo",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "12",
+        "height": "4",
         "columns": [
             {
                 "field": "Oras",
@@ -419,7 +476,7 @@
         "type": "debug",
         "z": "454db83ef85d1f44",
         "name": "Parse XML RSS",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -436,7 +493,7 @@
         "type": "debug",
         "z": "454db83ef85d1f44",
         "name": "Parse XML",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -576,7 +633,7 @@
         "type": "debug",
         "z": "454db83ef85d1f44",
         "name": "Options",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -704,7 +761,7 @@
         "type": "debug",
         "z": "454db83ef85d1f44",
         "name": "Telemetry Payload",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -717,7 +774,7 @@
         "wires": []
     },
     {
-        "id": "47761d57e1400274",
+        "id": "6ab78181edb1179e",
         "type": "global-config",
         "env": [],
         "modules": {
