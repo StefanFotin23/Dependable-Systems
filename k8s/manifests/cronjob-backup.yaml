@@ -4,7 +4,7 @@ metadata:
   name: nodered-backup
   namespace: default
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:
@@ -24,7 +24,7 @@ spec:
                       name: s3-creds
                       key: secret
                 - name: AWS_ENDPOINT_URL
-                  value: "http://minio.default.svc.cluster.local:9000"
+                  value: "http://minio-service.default.svc.cluster.local:9000"
               command:
                 - /bin/sh
                 - -c
@@ -39,7 +39,7 @@ spec:
                   tar -czf /tmp/nodered-data-$(date +%s).tgz /data
                   
                   echo "Uploading to S3..."
-                  aws --endpoint-url $AWS_ENDPOINT_URL s3 cp /tmp/nodered-data-*.tgz s3://my-backups/nodered/ || exit 1
+                  aws --endpoint-url $AWS_ENDPOINT_URL s3 cp /tmp/nodered-data-*.tgz s3://project-data-backup/nodered/ || exit 1
                   
                   echo "Done."
               volumeMounts:

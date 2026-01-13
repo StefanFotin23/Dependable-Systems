@@ -25,10 +25,10 @@ spec:
           args:
             - |
               echo "Configuring MinIO client..."
-              mc alias set local http://minio.default.svc.cluster.local:9000 $MINIO_ACCESS $MINIO_SECRET
+              mc alias set local http://minio-service.default.svc.cluster.local:9000 $MINIO_ACCESS $MINIO_SECRET
               
-              echo "Creating bucket 'my-backups' if not exists..."
-              mc mb --ignore-existing local/my-backups
+              echo "Creating bucket 'project-data-backup' if not exists..."
+              mc mb --ignore-existing local/project-data-backup
               
               echo "Bucket setup complete."
       restartPolicy: OnFailure

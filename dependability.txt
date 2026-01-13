@@ -12,9 +12,9 @@ The project utilizes a Cloud Native stack to ensure robustness and manageability
 -   **Node-RED:** Core event-driven application logic.
 -   **NGINX Ingress:** Traffic routing and load balancing.
 -   **Cert-Manager:** Automated TLS/SSL certificate management.
--   **Longhorn (Prod):** Distributed, replicated block storage for high availability.
+-   **Longhorn (Prod):** Distributed block storage engine that **synchronously replicates volumes** across multiple nodes. Used only in Production to prevent data loss if a node fails; disabled in Dev to save resources on the single-node cluster.
 -   **MinIO:** S3-compatible object storage for data backups.
--   **Velero (Prod):** Disaster recovery and cluster-wide snapshots.
+-   **Velero (Prod):** Disaster recovery tool that takes **full cluster snapshots** (ETCD state + Persistent Volumes) to object storage. Reserved for Production to protect against catastrophic cluster failures.
 -   **Prometheus:** Metrics collection and alerting.
 -   **Loki:** Centralized log aggregation.
 -   **Grafana:** Unified visualization dashboards.
@@ -36,7 +36,7 @@ Ensures the system remains operational and accessible.
 Focuses on data integrity and persistence.
 -   **Persistent Storage:** `PersistentVolumeClaim` (PVC) decouples data lifecycle from the pod.
 -   **Data Redundancy (Prod):** **Longhorn** maintains multiple synchronous replicas of data.
--   **Automated Backups (App-Level):** A `CronJob` runs every 6 hours, archiving Node-RED data to **MinIO** (S3) for off-site redundancy (low RPO).
+-   **Automated Backups (App-Level):** A **fully automated** process via Ansible and a Kubernetes **CronJob** runs **hourly**, archiving Node-RED data to a dedicated **S3 bucket (`project-data-backup`)** in **MinIO** for off-site redundancy (low RPO).
 -   **Cluster Disaster Recovery (Prod):** **Velero** provides full cluster snapshots.
 
 ## 5. Scalability Strategy
@@ -49,6 +49,7 @@ The system is built on scalable primitives but deliberately configured for stabi
 
 ## 6. Maintainability & Observability
 -   **Simplified Operations:** A `Makefile` abstracts complex commands (`make setup`, `make update`).
+-   **Automated Infrastructure:** Includes idempotent Ansible tasks for syncing S3 credentials and a Kubernetes Job for **automatic MinIO bucket provisioning**.
 -   **Decoupled Configuration:** `ConfigMaps` and `Secrets` allow updates without rebuilding images.
 -   **Observability Stack:**
     -   **Prometheus:** Monitors resource usage (CPU, RAM).
