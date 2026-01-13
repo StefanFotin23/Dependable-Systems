@@ -2,6 +2,7 @@
   kubernetes.core.helm_repository:
     name: prometheus-community
     repo_url: https://prometheus-community.github.io/helm-charts
+    force_update: true
 
 - name: "[Prometheus] Create monitoring namespace"
   kubernetes.core.k8s:
@@ -37,6 +38,7 @@
   kubernetes.core.helm_repository:
     name: grafana
     repo_url: https://grafana.github.io/helm-charts
+    force_update: true
 
 - name: "[Loki] Install Loki and Promtail for log aggregation"
   kubernetes.core.helm:
