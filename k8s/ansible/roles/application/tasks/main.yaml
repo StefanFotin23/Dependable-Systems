@@ -1,3 +1,30 @@
+- name: "[Backup] Get MinIO credentials"
+  kubernetes.core.k8s_info:
+    kind: Secret
+    name: minio-secret
+    namespace: default
+  register: minio_secret
+
+- name: "[Backup] Ensure s3-creds secret exists"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: s3-creds
+        namespace: default
+      type: Opaque
+      data:
+        access: "{{ minio_secret.resources[0].data.rootUser }}"
+        secret: "{{ minio_secret.resources[0].data.rootPassword }}"
+  when: minio_secret.resources | length > 0
+
+- name: "[Backup] Deploy MinIO Bucket Setup Job"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ k8s_manifests_path }}/job-minio-setup.yaml"
+
 - name: "[Node-RED] Render manifest templates"
   ansible.builtin.template:
     src: "{{ item.src }}"
@@ -21,3 +48,4 @@
     - "{{ k8s_manifests_path }}/pdb-nodered.yaml"
     - "{{ k8s_manifests_path }}/nodered-deployment.yaml"
     - "/tmp/nodered-service-ingress.yaml"
+    - "{{ k8s_manifests_path }}/cronjob-backup.yaml"

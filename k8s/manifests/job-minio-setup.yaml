@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-bucket-setup
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 60 # Clean up the pod automatically after 1 minute
+  template:
+    spec:
+      containers:
+        - name: mc
+          image: minio/mc
+          env:
+            - name: MINIO_ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: s3-creds
+                  key: access
+            - name: MINIO_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: s3-creds
+                  key: secret
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Configuring MinIO client..."
+              mc alias set local http://minio.default.svc.cluster.local:9000 $MINIO_ACCESS $MINIO_SECRET
+              
+              echo "Creating bucket 'my-backups' if not exists..."
+              mc mb --ignore-existing local/my-backups
+              
+              echo "Bucket setup complete."
+      restartPolicy: OnFailure
