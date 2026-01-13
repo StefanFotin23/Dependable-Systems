@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: observability-ingress
+  name: prometheus-ingress
   namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -10,13 +10,6 @@ spec:
   - host: nodered.local
     http:
       paths:
-      - path: /grafana(/|$)(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: kube-prometheus-stack-grafana
-            port:
-              number: 80
       - path: /prometheus(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
@@ -24,3 +17,23 @@ spec:
             name: kube-prometheus-stack-prometheus
             port:
               number: 9090
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  # No rewrite-target annotation for Grafana!
+  # Grafana handles the subpath itself via 'serve_from_sub_path: true'
+spec:
+  rules:
+  - host: nodered.local
+    http:
+      paths:
+      - path: /grafana
+        pathType: Prefix
+        backend:
+          service:
+            name: kube-prometheus-stack-grafana
+            port:
+              number: 80

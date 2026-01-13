@@ -27,8 +27,11 @@
       grafana:
         enabled: true
         grafana.ini:
+          auth.anonymous:
+            enabled: true
+            org_role: Admin
           server:
-            root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
+            root_url: /grafana
             serve_from_sub_path: true
       prometheus:
         prometheusSpec:
