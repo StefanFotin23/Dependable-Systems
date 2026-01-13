@@ -13,8 +13,10 @@ The project utilizes a Cloud Native stack to ensure robustness and manageability
 -   **NGINX Ingress:** Traffic routing and load balancing.
 -   **Cert-Manager:** Automated TLS/SSL certificate management.
 -   **Longhorn (Prod):** Distributed block storage engine that **synchronously replicates volumes** across multiple nodes. Used only in Production to prevent data loss if a node fails; disabled in Dev to save resources on the single-node cluster.
+        Longhorn requires the host machine (the Kubernetes node) to have an iSCSI initiator installed (open-iscsi)    
 -   **MinIO:** S3-compatible object storage for data backups.
 -   **Velero (Prod):** Disaster recovery tool that takes **full cluster snapshots** (ETCD state + Persistent Volumes) to object storage. Reserved for Production to protect against catastrophic cluster failures.
+        Velero works best when paired with Longhorn.
 -   **Prometheus:** Metrics collection and alerting.
 -   **Loki:** Centralized log aggregation.
 -   **Grafana:** Unified visualization dashboards.
