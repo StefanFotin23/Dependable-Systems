@@ -1,0 +1,55 @@
+# Analiza Dependabilității Sistemului de Avertizări Meteo
+
+Acest document analizează elementele de arhitectură și sistem implementate în cadrul proiectului, cu focus pe modul în care acestea contribuie la conceptele de **Încredere / Calitate (Dependability)**.
+
+## 1. Viziune Arhitecturală
+
+Proiectul este construit pe o fundație de tehnologii Cloud Native, având ca scop principal asigurarea unui serviciu robust, rezilient și ușor de administrat. Principalele alegeri tehnologice care stau la baza acestei strategii sunt:
+
+-   **Containerizare cu Docker:** Aplicația Node-RED este împachetată într-un container Docker, asigurând un mediu de rulare consistent și izolat, indiferent unde este déployată.
+-   **Orchestrare cu Kubernetes:** Kubernetes este folosit pentru a automatiza déploay-ul, managementul și scalarea aplicației. Acesta reprezintă pilonul central pentru majoritatea caracteristicilor de înaltă disponibilitate și reziliență.
+-   **Automatizare cu Ansible (Infrastructure as Code):** Întregul proces de configurare a mediului (atât pentru dezvoltare, cât și pentru producție) este automatizat folosind Ansible. Acest lucru elimină erorile manuale, asigură repetabilitatea și simplifică mentenanța.
+
+## 2. Disponibilitate (Availability)
+
+Disponibilitatea se referă la capacitatea sistemului de a fi operațional și accesibil. În acest proiect, disponibilitatea este asigurată prin:
+
+-   **Auto-remediere (Self-Healing):** Deși aplicația rulează cu o singură replică (`replicas: 1` în `nodered-deployment.yaml`), Kubernetes monitorizează constant starea acesteia. Dacă pod-ul sau nodul pe care rulează eșuează, Kubernetes va reporni automat pod-ul pe un nod sănătos.
+-   **Stocare Replicată în Producție:** În mediul de producție, se folosește **Longhorn** ca `StorageClass`. Dacă un nod devine indisponibil, Longhorn, împreună cu Kubernetes, poate reatașa volumul de date replicat la noul pod pornit pe un alt nod, asigurând continuitatea serviciului cu timp de întrerupere minim și fără pierderi de date.
+-   **Protecție la Întreruperi Voluntare:** A fost configurat un `PodDisruptionBudget` (`pdb-nodered.yaml`) care specifică `minAvailable: 1`. Acesta previne îndepărtarea pod-ului aplicației în timpul operațiunilor de mentenanță planificate (ex: actualizarea unui nod), garantând astfel continuitatea serviciului.
+-   **Izolarea Eșecurilor:** Configurația `podAntiAffinity` din `nodered-deployment.yaml` este o măsură proactivă. Chiar dacă în prezent se folosește o singură replică, această regulă asigură că, în cazul unei scalări viitoare, pod-urile vor fi distribuite pe noduri fizice diferite, prevenind ca un singur punct de eșec hardware să afecteze întregul serviciu.
+
+## 3. Fiabilitate și Durabilitatea Datelor (Reliability & Data Durability)
+
+Fiabilitatea se concentrează pe integritatea și persistența datelor.
+
+-   **Stocare Persistentă:** Datele aplicației Node-RED (fluxuri, configurări, date colectate) sunt stocate într-un `PersistentVolumeClaim` (`pvc-nodered.yaml.j2`), decuplând ciclul de viață al datelor de cel al pod-ului.
+-   **Stocare Replicată (Redundanță):** Punctul central al fiabilității datelor în producție este utilizarea `StorageClass`-ului `longhorn-replicated`. Longhorn menține sincronizat un număr configurabil de replici ale volumului de date pe noduri diferite din cluster. Pierderea unui nod sau a unui disc nu duce la pierderea datelor.
+-   **Backup Automat (Application-Level):** Un `CronJob` Kubernetes (`cronjob-backup.yaml`) a fost configurat pentru a rula la fiecare 6 ore (`schedule: "0 */6 * * *"`). Acesta arhivează directorul de date al Node-RED și îl încarcă într-un bucket S3 (MinIO), oferind un **Recovery Point Objective (RPO)** scăzut. Aceasta este o formă de redundanță off-site.
+-   **Backup la Nivel de Cluster (Infrastructure-Level):** Conform `README.md`, în mediul de producție se utilizează și **Velero** pentru a crea snapshot-uri complete ale stării cluster-ului și ale volumelor persistente. Aceasta oferă un nivel superior de protecție.
+
+## 4. Recuperabilitate (Recoverability)
+
+Capacitatea de a restabili serviciul după un incident este critică.
+
+-   **Restaurare din Backup:** Proiectul include script-uri (`k8s/scripts/restore-from-s3.sh`) care permit restaurarea datelor aplicației direct din backup-urile stocate pe S3, permițând o recuperare rapidă și țintită.
+-   **Recuperare după Dezastru:** Utilizarea Velero (în producție) permite recuperarea completă a stării aplicațiilor și a datelor după un eșec major sau chiar pierderea întregului cluster.
+
+## 5. Scalabilitate (Scalability)
+
+Deși configurată inițial pentru o singură replică, arhitectura este pregătită pentru scalare.
+
+-   **Scalare Orizontală:** Prin utilizarea unui `Deployment` Kubernetes, numărul de replici Node-RED poate fi mărit cu o singură comandă (`kubectl scale deployment nodered --replicas=3`).
+-   **Load Balancing:** Serviciul este expus printr-un `Ingress`, care ar distribui automat traficul către toate replicile disponibile în cazul unei scalări, echilibrând încărcarea.
+
+## 6. Mentenabilitate și Operabilitate (Maintainability & Operability)
+
+Ușurința cu care sistemul poate fi administrat și actualizat este un aspect cheie al calității.
+
+-   **Interfață de Management Simplificată:** `Makefile`-ul oferă o interfață de nivel înalt (`make setup`, `make start`, `make stop`) care abstractizează complexitatea comenzilor `ansible` și `kubectl`, reducând curba de învățare și riscul de eroare umană.
+-   **Configurare Decuplată:** Datele de configurare (URL-uri RSS) și secretele (parole, chei API) sunt gestionate prin `ConfigMap` și `Secret`, permițând actualizarea acestora fără a reconstrui imaginea Docker a aplicației.
+-   **Observabilitate:** Arhitectura de producție include un stack de monitorizare (Prometheus) și logare (Loki), esențial pentru identificarea proactivă a problemelor, depanare și analiza performanței.
+
+## Concluzie
+
+Prin combinarea strategică a orchestrației cu Kubernetes, a stocării replicate cu Longhorn, a backup-urilor automate cu CronJob și Velero și a automatizării complete cu Ansible, proiectul demonstrează o arhitectură matură, aliniată cu principiile sistemelor de încredere. Sistemul este proiectat nu doar să funcționeze, ci și să reziste la eșecuri, să protejeze datele și să fie ușor de administrat pe termen lung, îndeplinind astfel cerințele de **disponibilitate, fiabilitate, recuperabilitate și mentenabilitate**.
