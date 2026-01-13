@@ -2,15 +2,16 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: nodered-backup
+  namespace: default
 spec:
-  schedule: "0 */6 * * *"
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: backup
-              image: bitnami/aws-cli:2.15.0
+              image: amazon/aws-cli:latest
               env:
                 - name: AWS_ACCESS_KEY_ID
                   valueFrom:
@@ -22,14 +23,30 @@ spec:
                     secretKeyRef:
                       name: s3-creds
                       key: secret
+                - name: AWS_ENDPOINT_URL
+                  value: "http://minio.default.svc.cluster.local:9000"
               command:
                 - /bin/sh
                 - -c
                 - |
-                  tar -czf /tmp/nodered-data-$(date +%s).tgz /data \
-                  && aws s3 cp /tmp/nodered-data-*.tgz s3://my-backups/nodered/ || exit 1
+                  # Configure endpoint explicitly for older aws-cli versions or if ENV is ignored
+                  aws configure set default.s3.signature_version s3v4
+                  
+                  echo "Installing dependencies..."
+                  yum install -y tar gzip
+
+                  echo "Creating backup..."
+                  tar -czf /tmp/nodered-data-$(date +%s).tgz /data
+                  
+                  echo "Uploading to S3..."
+                  aws --endpoint-url $AWS_ENDPOINT_URL s3 cp /tmp/nodered-data-*.tgz s3://my-backups/nodered/ || exit 1
+                  
+                  echo "Done."
+              volumeMounts:
+                - name: data
+                  mountPath: /data
           restartPolicy: OnFailure
           volumes:
             - name: data
               persistentVolumeClaim:
-                claimName: nodered-data-pvc
+                claimName: nodered-pvc
