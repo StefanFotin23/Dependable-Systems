@@ -1,1 +1,4 @@
 .env
+node_red_data/flows_cred.json
+node_red_data/.config.runtime.json*
+node_red_data/.flows_cred.json.backup
